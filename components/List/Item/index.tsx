@@ -4,15 +4,18 @@ import {View, Text, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 type Props = {
   text: string;
   onPress(): void;
+  onPressText(): void;
 };
 
-export default function Item({text, onPress}: Props) {
+export default function Item({text, onPress, onPressText}: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.box}>
-        <View style={styles.textBox}>
-          <Text style={styles.text}>{text}</Text>
-        </View>
+        <TouchableWithoutFeedback onPress={onPressText}>
+          <View style={styles.textBox}>
+            <Text style={styles.text}>{text}</Text>
+          </View>
+        </TouchableWithoutFeedback>
         <View style={styles.iconBox}>
           <TouchableWithoutFeedback onPress={onPress}>
             <View style={styles.iconContainer}>
@@ -56,6 +59,7 @@ const styles = StyleSheet.create({
     borderRadius: 48,
     alignItems: 'center',
     justifyContent: 'center',
+    borderWidth: 0,
   },
   iconText: {
     color: '#011222',

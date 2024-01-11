@@ -1,63 +1,34 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import React, {useState, useEffect} from 'react';
-// import type {PropsWithChildren} from 'react';
-import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
+import Users from './screens/Users';
+import Album from './screens/Album';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-
-import List from './components/List/List';
-
-const getAlbums = async (id: number) => {
-  return await fetch(`https://jsonplaceholder.typicode.com/albums?userId=${id}`)
-    .then(response => response.json())
-    .then(data => data)
-    .catch(error => console.log('error', error));
-};
-
-type User = {
-  id: number;
-  username: string;
-};
+const Stack = createNativeStackNavigator();
 
 function App() {
-  const [users, setUsers] = useState([]);
-  const [albums, setAlbums] = useState([]);
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then(response => response.json())
-      .then(data => setUsers(data))
-      .catch(error => console.log('error', error));
-  }, []);
-
-  useEffect(() => {
-    if (users.length > 0) {
-      users.forEach(async (user: User) => {
-        const data = await getAlbums(user.id);
-        setAlbums(current => [...current, {title: user.username, data}]);
-      });
-    }
-  }, [users]);
-
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <List data={albums} />
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#FBFFF4',
+          },
+          headerTintColor: '#011222',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 24,
+          },
+        }}>
+        <Stack.Screen name="Users" component={Users} />
+        <Stack.Screen
+          name="Album"
+          component={Album}
+          options={({route}) => ({title: route?.params?.title ?? ''})}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

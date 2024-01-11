@@ -4,13 +4,20 @@ import {SectionList} from 'react-native';
 import Header from '../Header';
 import Item from '../Item';
 
-const List = ({data}: any) => {
-  console.log('data', data.length);
+const List = ({data, navigation}: any) => {
   return (
     <SectionList
       sections={data}
       keyExtractor={(item, index) => item.userId + index}
-      renderItem={({item}) => <Item text={item.title} onPress={() => {}} />}
+      renderItem={({item}) => (
+        <Item
+          text={item.title}
+          onPressText={() => {
+            navigation.navigate('Album', {id: item.id, title: item.title});
+          }}
+          onPress={() => null}
+        />
+      )}
       renderSectionHeader={({section: {title}}) => <Header text={title} />}
     />
   );
