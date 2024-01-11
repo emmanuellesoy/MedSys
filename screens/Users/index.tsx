@@ -24,7 +24,10 @@ export default function Users({navigation}) {
     if (users.length > 0) {
       users.forEach(async (user: User) => {
         const data = await getAlbumsByUser(user.id);
-        setAlbums(current => [...current, {title: user.username, data}]);
+        setAlbums(current => [
+          ...current,
+          {title: user.username, data, userId: user.id},
+        ]);
       });
     }
   }, [users]);

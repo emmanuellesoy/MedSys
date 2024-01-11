@@ -13,7 +13,11 @@ const List = ({data, navigation}: any) => {
         <Item
           text={item.title}
           onPressText={() => {
-            navigation.navigate('Album', {id: item.id, title: item.title});
+            navigation.navigate('Album', {
+              id: item.id,
+              title: item.title,
+              userId: item.userId,
+            });
           }}
           onPress={() => null}
         />
